@@ -49,7 +49,7 @@ klenee xs =  [[]] ++ [ zs ++ x | zs <- klenee xs,  x <- xs]
 
 alt :: Eq a => Lang a -> Lang a -> Lang a
 alt xs ys = xs `union` ys
-
+    
 compl :: Eq a => Alpha a -> Lang a -> Lang a
 compl xs ys = (klenee (map (:[]) xs)) \\ ys
 
@@ -68,7 +68,8 @@ naturalize l n = [ l k |k <-[n..]]
   but obviously it can't be done in this way, can it ? 
   
   Notes for latter check the stubborn grammar S->bSb/Epsilon.
-  
+-}
+
 peg2gen :: Chrs -> G -> E -> Str
 peg2gen _ g Eps = [""]
 peg2gen a g Any = map (:[]) a
@@ -77,9 +78,9 @@ peg2gen a g (Not e) = compl a (peg2gen a g e)
 peg2gen a g (Kle e) = klenee (peg2gen a g e)
 peg2gen a g (Alt e1 e2) = alt (peg2gen a g e1) (peg2gen a g e2)
 peg2gen a g (Seq e1 e2) = cat (peg2gen a g e1) (peg2gen a g e2)
-peg2gen a g (Var s) = case lookup s g of 
-                           Nothing -> empty
-                           Just e -> peg2gen a g e -}
+-- peg2gen a g (Var s) = case lookup s g of 
+--                            Nothing -> empty
+--                            Just e -> peg2gen a g e -}
 
                            
 --S -> b S b | a S a
@@ -109,13 +110,12 @@ pegTest p prfx g e inp = testCase (prfx ++ " on \"" ++ inp ++ "\"") (assertAccep
     where accept s       = p (simpleRun g e s)
           assertAccep  s = assertBool (" failed on :" ++s) (accept s) 
 
-accTest g e s  = pegTest accepted (pprint e ++ " accept")  g e s           -- accepts a prefix of the input 
-accJustTest p g e s  = pegTest (acceptedJust p) (pprint e ++ " accept just \"" ++ p++ "\"") g e s   -- accepts explicitly the given string as prefix
-lamTest g e s  = pegTest accepted (pprint e ++ " lambda acc")  g e s       -- accepts without consuming any input 
-fullAccTest g e s = pegTest fullyAccepted (pprint e ++ " fully acc") g e s -- accepts consuming the input entirely 
-rejTest g e s  = pegTest (not.accepted) (pprint e ++ " reject") g e s      -- Rejects the input
-          
-          
+accTest g e s       = pegTest accepted (pprint e ++ " accept")  g e s                            -- accepts a prefix of the input 
+accJustTest p g e s = pegTest (acceptedJust p) (pprint e ++ " accept just \"" ++ p++ "\"") g e s -- accepts explicitly the given string as prefix
+lamTest g e s       = pegTest accepted (pprint e ++ " lambda acc")  g e s                        -- accepts without consuming any input 
+fullAccTest g e s   = pegTest fullyAccepted (pprint e ++ " fully acc") g e s                     -- accepts consuming the input entirely 
+rejTest g e s       = pegTest (not.accepted) (pprint e ++ " reject") g e s                       -- Rejects the input
+                    
 -- "lambda"          
 peg0 = Eps 
 peg0tc = map (lamTest [] peg0) (sigStarN 2 "ab")
@@ -140,24 +140,34 @@ peg3tc = [fullAccTest [] peg3 "ab"] ++
 
 -- "a/b"
 peg4 = Alt (Lit 'a') (Lit 'b')
-ipeg4 = (sigStarN' 3 "ab",["","c","d"])
-peg4tc = buildTestCases [] peg4 (pprint peg4) ipeg4
+peg4tc = map (fullAccTest [] peg4) (sigStarN' 1 "ab") ++
+         map (accJustTest "a" [] peg4) ["a","aa","ab"] ++
+         map (accJustTest "b" [] peg4) ["b","ba","bb"] ++
+         map (rejTest [] peg4) ["","c","cc"]
 
 -- "abc"
 peg5 = Seq (Lit 'a') (Seq (Lit 'b') (Lit 'c'))
-ipeg5 = (take 3 $ drop 1 $ klenee ["abc"], ( (sigStarN  3 "ab") `alt` (sigStarN  3 "ac")))
-peg5tc = buildTestCases [] peg5 (pprint peg5) ipeg5
+peg5tc = map (fullAccTest [] peg5) ["abc"] ++
+         map (accJustTest "abc" [] peg5) ["abca","abcb","abcabc"] ++
+         map (rejTest [] peg5) ["","a","ab","aba","abb"]
+         
 
 -- "a/b/c"
 peg6 = Alt (Lit 'a') (Alt (Lit 'b') (Lit 'c'))
-ipeg6 =  (sigStarN'  3 "abc",sigStarN  2 "de")
-peg6tc = buildTestCases [] peg6 (pprint peg6) ipeg6
-
+peg6tc = map (fullAccTest [] peg6) (sigStarN' 1 "abc") ++
+         map (accJustTest "a" [] peg6) (cat ["a"] (sigStarN' 1 "abc")) ++
+         map (accJustTest "b" [] peg6) (cat ["b"] (sigStarN' 1 "abc")) ++
+         map (accJustTest "c" [] peg6) (cat ["c"] (sigStarN' 1 "abc")) ++
+         map (rejTest [] peg6) ["","d"]
+         
 
 -- "a(b/c)"
 peg7 = Seq (Lit 'a') (Alt (Lit 'b') (Lit 'c'))
 ipeg7 = let e1 = cat ["a"] $ take 5 (drop 1 $ klenee (alt ["b"] ["c"])) in ( e1, take 5 $ compl "abc" e1)
-peg7tc = buildTestCases [] peg7 (pprint peg7) ipeg7
+peg7tc = map (fullAccTest [] peg7) (cat ["a"] (sigStarN' 1 "bc")) ++
+         map (accJustTest "ab" [] peg7) (cat ["ab"] (sigStarN' 1 "abc")) ++
+         map (accJustTest "ac" [] peg7) (cat ["ac"] (sigStarN' 1 "abc")) ++
+         map (rejTest [] peg7) (["","a"] ++ (sigStarN' 1 "bc"))
 
 -- "" 
 peg8= Seq  (Alt (Lit 'a') (Lit 'b')) (Lit 'c')
@@ -219,8 +229,9 @@ gpeg3 = [("S", Seq (andE (Seq (Var "A") (Lit 'c'))) (Seq (Seq (Kle (Lit 'a')) (V
          ("B", bncn)]
  
 
-pegGroup = testGroup "Simple PEGs" (concat [peg0tc, peg1tc,peg2tc,peg3tc --peg4tc,peg5tc,peg6tc,peg7tc,peg8tc,peg9tc,peg10tc,peg11tc, peg12tc,peg13tc,peg14tc
-                                           
+pegGroup = testGroup "Simple PEGs" (concat [peg0tc, peg1tc,  peg2tc,  peg3tc,  peg4tc,
+                                            peg5tc, peg6tc,  peg7tc,  peg8tc,  peg9tc,
+                                            peg10tc,peg11tc--, peg12tc, peg13tc, peg14tc 
                                            ])
  
 main :: IO ()

@@ -1,0 +1,191 @@
+\documentclass[manuscript, review, sigconf]{acmart}
+\setcitestyle{super,sort&compress}
+\citestyle{acmnumeric}
+\usepackage{amsmath}
+
+\usepackage{booktabs} % For formal tables
+\usepackage{proof}
+\usepackage{bussproofs}
+\usepackage{url}
+\usepackage[latin1]{inputenc}
+\usepackage{lineno}
+\usepackage[nounderscore]{syntax}
+\setlength{\grammarparsep}{2pt}
+\setlength{\grammarindent}{2em}
+
+\usepackage{float}
+
+
+\newcommand{\type}[1]{\emph{#1}}        % Type names in the text.
+\newcommand{\rname}[1]{\textbf{\scriptsize \emph{#1}}} % Rule names in the type system.
+\newcommand{\trname}[1]{\emph{\Small\textbf{#1}}} % Rule names in the text
+
+%%% Number line on grammar environment
+\makeatletter
+\def\gr@implitem<#1> #2 {%
+  \sbox\z@{\hskip\labelsep\grammarlabel{#1}{#2}}%
+  \strut\@@@par% lineno.sty redefines \@@par which was in the original code
+  \vspace{-\parskip}%
+  \vspace{-\baselineskip}%
+  \hrule\@height\z@\@depth\z@\relax%
+  \item[\unhbox\z@]%
+  \catcode`\<\active%
+}
+\makeatother
+
+
+
+\floatstyle{ruled}
+\restylefloat{figure}
+
+\usepackage{listings}
+
+\lstdefinestyle{uSugar}{
+  emph={define, lambda, syntax, loop, if, true, false},
+  emphstyle=\bf,
+  basicstyle=\footnotesize, showspaces=false,
+  firstnumber=auto, numbers=left, numbersep=1pt
+}
+
+\newcommand{\attr}{$\leftarrow$}
+
+
+\newcommand{\q     }[1]{\mbox{\(\lbrack\!\lbrack{#1}\rbrack\!\rbrack \)}}
+
+
+% Metadata Information
+\acmConference[SBLP2021]{XXV BRAZILIAN SYMPOSIUM ON PROGRAMMING LANGUAGES}{September 23--27, 2021}{Brazil}
+
+%\acmVolume{9}
+%\acmNumber{4}
+%\acmArticle{39}
+%\acmYear{2010}
+%\acmMonth{3}
+
+%\acmBadgeL[http://ctuning.org/ae/ppopp2016.html]{ae-logo}
+%\acmBadgeR[http://ctuning.org/ae/ppopp2016.html]{ae-logo}
+
+% Copyright
+\setcopyright{acmcopyright}
+%\setcopyright{acmlicensed}
+%\setcopyright{rightsretained}
+%\setcopyright{usgov}
+%\setcopyright{usgovmixed}
+%\setcopyright{cagov}
+%\setcopyright{cagovmixed}
+
+% DOI
+\acmDOI{}
+
+%\title{Toward a Modular Language Specification}
+%\title{Toward Language-Independent Sugar Library Specification}
+\title{Toward Language-Independent Sugar Libraries}
+
+\author{ELTON M. CARDOSO}
+\affiliation{%
+  \institution{Universidade Federal de Ouro Preto}
+  %\department{Departamento de Computa\c c\~ao e Sistemas}
+  %\department{Departamento de Ci\^encia da Computa\c c\~ao}
+  \city{Ouro Preto}
+  \state{Minas Gerais}
+  \country{Brazil}
+}
+\author{RODRIGO G. RIBEIRO}
+\affiliation{%
+  \institution{Universidade Federal de Ouro Preto}
+  %\department{Departamento de Computa\c c\~ao e Sistemas}
+  %\department{Departamento de Ci\^encia da Computa\c c\~ao}
+  \city{Ouro Preto}
+  \state{Minas Gerais}
+  \country{Brazil}
+}
+
+\author{LEONARDO V. S. REIS}
+%\orcid{1234-4564-1234-4565}
+\affiliation{%
+  \institution{Universidade Federal de Juiz de Fora}
+  %\department{Departamento de Ci\^encia da Computa\c c\~ao}
+  \city{Juiz de Fora}
+  \state{Minas Gerais}
+  \country{Brazil}
+}
+\email{lvsreis@ice.ufjf.br}
+
+% Document starts
+\begin{document}
+
+\begin{abstract}
+
+\end{abstract}
+
+\keywords{PEG, parsing, semmantics}
+
+\maketitle
+\renewcommand{\shortauthors}{CARDOSO et al.}
+
+\section{Introduction} \label{sec:intro}
+
+
+\section{PEGs} \label{sec:apeg}
+
+
+\begin{grammar} 
+ <$e$> ::= $a$
+ \alt $\epsilon$
+ \alt $e\;e$
+ \alt $e / e$
+ \alt $e*$
+ \alt $!e$
+ \alt $v$
+\end{grammar}
+
+\begin{grammar} 
+ <$m$> ::= $a$
+ \alt $\epsilon$
+ \alt $\odot e$
+ \alt $e \odot$
+ \alt $\otimes e$
+ \alt $e \otimes$
+ \alt $\star$
+ \alt $\neg$
+\end{grammar}
+
+
+\section{Small step Semmantics} \label{sec:sem}
+
+The machine state is described by 5-upla $(G, e,\Gamma , \langle z\bullet w \rangle)$. where G is a Peg Grammar, $e$ is a peg expression, $\Gamma$ is a evaluation context, the  $\langle z\bullet w \rangle$ is a zipper describing on the input string, where
+$z$ is the the consumed portion of the input and $w$ is the reminder of the input. Failed computations 
+fail the zipper will be subscripted, becoming a $\langle z \bullet w \rangle_{\bot}$. 
+ Outra forma de construçãod de dados 
+ 
+
+The semmantics relation has the form $(G, e,\Gamma ,z\Join w) \rhd (G, e, \Gamma, z'\Join w')$
+where G is a Parsing Expression Grammars, $e$ is an expression, $\Gamma$ is a stack of $m$ expr , $z$ is the consumed input and $w$ is the input.
+
+
+
+\[
+\begin{array}{lcl}
+ (G, \downarrow a,\Gamma ,z \bullet aw)       & \rhd & (G, \uparrow a, \Gamma, za \bullet w) \\
+ (G, \downarrow a,\Gamma ,z \bullet bw)       & \rhd & (G, \uparrow a, \Gamma, \langle z \bullet bw\rangle_{\bot}) \\
+ (G, \downarrow a,\Gamma ,z \bullet \lambda)  & \rhd & (G, \uparrow a, \Gamma, \bot) \\
+ (G, \downarrow \epsilon,\Gamma ,z \bullet w) & \rhd & (G, \uparrow \epsilon, \Gamma, z \bullet w) \\
+ (G, \downarrow e1/e2, \Gamma ,z \bullet w)   & \rhd & (G, \uparrow e1, \otimes e2 : \Gamma, z \bullet w) \\
+\end{array}
+\]
+
+\section{Related Work} \label{sec:related}
+
+
+\section{Conclusions} \label{sec:conc}
+
+
+\begin{acks}
+This work is supported by the \grantsponsor{CNPq}{CNPq -- Brazil}{} under grant No.: \grantnum{CNPq}{426232/2016}.
+\end{acks}
+
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
