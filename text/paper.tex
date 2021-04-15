@@ -48,7 +48,8 @@
 }
 
 \newcommand{\attr}{$\leftarrow$}
-
+\newcommand{\zpp}[2]{\langle #1\bullet #2 \rangle}
+\newcommand{\zppf}[2]{\langle #1\bullet #2 \rangle_{\bot}}
 
 \newcommand{\q     }[1]{\mbox{\(\lbrack\!\lbrack{#1}\rbrack\!\rbrack \)}}
 
@@ -126,53 +127,144 @@
 \section{Introduction} \label{sec:intro}
 
 
-\section{PEGs} \label{sec:apeg}
+\section{Definition fo the Parsing Grammar Expressions and the Abstract Machine} \label{sec:apeg}
 
 
-\begin{grammar} 
- <$e$> ::= $a$
- \alt $\epsilon$
- \alt $e\;e$
- \alt $e / e$
- \alt $e*$
- \alt $!e$
- \alt $v$
-\end{grammar}
+The parsing expressions syntax is given by the grammar of the Figure~\ref{fig:grm-peg},as defined by \cite{Ford04}.
 
-\begin{grammar} 
- <$m$> ::= $a$
- \alt $\epsilon$
- \alt $\odot e$
- \alt $e \odot$
- \alt $\otimes e$
- \alt $e \otimes$
- \alt $\star$
- \alt $\neg$
-\end{grammar}
+\begin{figure}[H]
+  \begin{grammar} 
+    <$e$> ::= $a$
+    \alt $\epsilon$
+    \alt $e\;e$
+    \alt $e / e$
+    \alt $e*$
+    \alt $!e$
+    \alt $v$
+  \end{grammar}
+ \caption{Grammar for Parsing Expression }
+ \label{fig:grm-peg}
+\end{figure}
 
+The parsing expression grammar $G$ is a set of pairs $(V,e)$ whose $V$ is a varibale. The evaluation context for a PEG is defined by the grammar of the Figure~\ref{fig:grm-ctx}.
+
+\begin{figure}[H]   
+   \begin{grammar} 
+     <$m$> ::= $a$
+     \alt $\epsilon$
+     \alt $\odot e$
+     \alt $e \odot$
+     \alt $\oslash e$
+     \alt $e \oslash$
+     \alt $\star$
+     \alt $\neg$
+   \end{grammar}
+   \caption{Grammar for evaluation context }
+   \label{fig:grm-ctx}
+\end{figure}
+
+
+
+
+The machine state is described by 5-upla $(G, e,\Gamma , \zpp{z}{w})$. where G is a Peg Grammar, $e$ is a peg expression, $\Gamma$ is an evaluation context, the  $\zpp{z}{w}$ is a zipper describing on the input string, where $z$ is the consumed portion of the input and $w$ is the reminder of the input. The empty input, represented by $\lambda$. Failed computations fail, the zipper will be subscripted, becoming a $\zppf{z}{w}$. 
+
+The parsing expression $e$ will be preceded by a $\downarrow$, to indicate that the processing of that expression is to be started, or by an $\uparrow$ to indicate that the processing of that expression is to be finished. 
+
+The $\Gamma$ context is managed as a stack, the empty contexto is written $[]$. A non-empty context is written $m : \Gamma$, where $m$ is a context expression.  
+
+A PEG grammar $G$ is a set of pairs $(\mathcal{V},e)$ and denotes a rule $\mathcal{V} \leftarrow e$ onde $\mathcal{V}$ is a variable. For simplicity reasons it is assumed that there is only one varibale $\mathbb{V}$ in $G$.  
 
 \section{Small step Semmantics} \label{sec:sem}
 
-The machine state is described by 5-upla $(G, e,\Gamma , \langle z\bullet w \rangle)$. where G is a Peg Grammar, $e$ is a peg expression, $\Gamma$ is a evaluation context, the  $\langle z\bullet w \rangle$ is a zipper describing on the input string, where
-$z$ is the the consumed portion of the input and $w$ is the reminder of the input. Failed computations 
-fail the zipper will be subscripted, becoming a $\langle z \bullet w \rangle_{\bot}$. 
- Outra forma de construçãod de dados 
+The semmantics relation has the form $(G, e,\Gamma ,z \bullet w) \rhd (G, e, \Gamma, \zpp{z'}{w'})$ where G is a Parsing Expression Grammars, $e$ is an expression, $\Gamma$ is a stack of $m$ expr , $z$ is the consumed input and $w$ is the input.
+
+
+The rule \ref{r000} displayed in Figure \ref{fig:rule-eps} shows that when beginning processing the empty PEG, $\downarrow \epsilon$, the result is a state where the empty peg finished without consuming any input string. This rule always succeeds.   
+
+\begin{figure}[H]
+\begin{enumerate}
+  \item \label{r000} $(G, \downarrow \epsilon,\Gamma ,\zpp{z}{w})       \rhd  (G, \uparrow \epsilon, \Gamma, \zpp{z}{w})$ 
+\end{enumerate}
+ \caption{Rules for a simple terminal}
+ \label{fig:rule-eps}
+\end{figure}
+
+The rule \ref{r000} displayed in Figure \ref{fig:rule-eps} shows that when beginning processing the empty PEG, $\downarrow \epsilon$, the result is a state where the empty peg finished without consuming any input string. This rule always succeeds.  
+
+\begin{figure}[H]
+\begin{enumerate}\addtocounter{enumi}{1}
+  \item \label{r010} $(G, \downarrow a,\Gamma ,\zpp{z}{aw})       \rhd  (G, \uparrow a, \Gamma, \zpp{za}{w})$ 
+  \item \label{r020} $(G, \downarrow a,\Gamma ,\zpp{z}{bw})       \rhd  (G, \uparrow a, \Gamma, \zppf{z}{bw})$ 
+  \item \label{r030} $(G, \downarrow a,\Gamma ,\zpp{z}{\lambda})  \rhd  (G, \uparrow a, \Gamma, \zppf{z}{\lambda})$ 
+\end{enumerate}
+ \caption{Rules for a simple terminal}
+ \label{fig:rule-simple}
+\end{figure}
+
+Rules \ref{r040} to \ref{r080} determine the behavior on a sequence construction. Rule \ref{r040} states that the result of processing sequence $e_1e_2$  is 
+to begin the processing of the subexpression $e_1$ inserting the expression $\odot e_2$ in the evaluation context. Rule 
+\ref{r050} shows that in a state where  the processing of subexpression $e_1$ has ended and the expression $\odot e_2$ is on top of the 
+evaluation stack the result is 
+
+\begin{figure}[H]
+\begin{enumerate}\addtocounter{enumi}{4}
+  \item \label{r040} $(G, \downarrow e_1e_2,\Gamma ,\zpp{z}{w})    \rhd  (G, \downarrow e_1,  \odot e_2 : \Gamma, \zpp{z}{w})$ 
+  \item \label{r050} $(G, \uparrow e_1 ,\odot e_2 : \Gamma ,\zpp{z}{w})   \rhd  (G, \downarrow e_2, e_1 \odot : \Gamma, \zpp{z}{w})$ 
+  \item \label{r060} $(G, \uparrow e_2 ,e_1 \odot  : \Gamma ,\zpp{z}{w})   \rhd  (G, \uparrow e_1e_2, \Gamma, \zpp{z}{w})$
+  \item \label{r070} $(G, \uparrow e_1 ,  \odot e_2 : \Gamma ,\zppf{z}{w})   \rhd  (G, \uparrow e_1 e_2, \Gamma, \zppf{z}{w})$ 
+  \item \label{r080} $(G, \uparrow e_2 ,e_1 \odot  : \Gamma ,\zppf{z}{w})   \rhd  (G, \uparrow e_1e_2, \Gamma, \zppf{z}{w})$
+\end{enumerate}
+ \caption{Rules for seqeunce}
+ \label{fig:rule-seq}
+\end{figure}
+
+\begin{figure}[H]
+\begin{enumerate}\addtocounter{enumi}{9}
+  \item \label{r090} $(G, \downarrow e_1 / e_2,\Gamma ,\zpp{z}{w})          \rhd  (G, \downarrow e_1,  \oslash e_2 : \Gamma, \zpp{z}{w})$ 
+  \item \label{r100} $(G, \uparrow e_1 ,\oslash e_2 : \Gamma ,\zpp{z}{w})   \rhd  (G, \uparrow e_1 / e_2 , \Gamma, \zpp{z}{w})$ 
+  \item \label{r110} $\dfrac{(G, \uparrow e_1 ,e_2 \oslash  : \Gamma ,\zppf{z'}{w'})}{(G, \uparrow e_1 ,e_2 \oslash  : \Gamma ,\zppf{z}{w}) \rhd  (G, \downarrow e_2 , e1 \oslash : \Gamma, \zpp{z}{w})}$
+  \item \label{r120} $(G, \uparrow e_2 ,e_1 \oslash  : \Gamma ,\zpp{z}{w})  \rhd  (G, \uparrow e_1 / e_2, \Gamma, \zpp{z}{w})$ 
+  \item \label{r130} $(G, \uparrow e_2 ,e_1 \oslash  : \Gamma ,\zppf{z}{w}) \rhd  (G, \uparrow e_1 / e_2, \Gamma, \zppf{z}{w})$
+\end{enumerate}
+ \caption{Rules for alternative}
+ \label{fig:rule-seq}
+\end{figure}
+
+
+
+\begin{figure}[H]
+\begin{enumerate}\addtocounter{enumi}{9}
+  \item \label{r090} $(G, \downarrow ! e,\Gamma ,\zpp{z}{w})       \rhd  (G, \downarrow e, \neg : \Gamma, \zppf{z}{w})$ 
+  \item \label{r100} $(G, \uparrow e , \neg : \Gamma ,\zppf{z}{w}) \rhd  (G, \uparrow !e,  \Gamma, \zpp{z}{w})$ 
  
+\end{enumerate}
+ \caption{Rules for not}
+ \label{fig:rule-seq}
+\end{figure}
 
-The semmantics relation has the form $(G, e,\Gamma ,z\Join w) \rhd (G, e, \Gamma, z'\Join w')$
-where G is a Parsing Expression Grammars, $e$ is an expression, $\Gamma$ is a stack of $m$ expr , $z$ is the consumed input and $w$ is the input.
 
+
+\begin{figure}[H]
+\begin{enumerate}\addtocounter{enumi}{9}
+  \item \label{r090} $(G, \downarrow e_1e_2,\Gamma ,\zpp{z}{w})    \rhd  (G, \downarrow e_1,  \odot e_2 : \Gamma, \zpp{z}{w})$ 
+  \item \label{r100} $(G, \uparrow e_1 ,\odot e_2 : \Gamma ,\zpp{z}{w})   \rhd  (G, \downarrow e_2, e_1 \odot : \Gamma, \zpp{z}{w})$ 
+  \item \label{r110} $(G, \uparrow e_2 ,e_1 \odot  : \Gamma ,\zpp{z}{w})   \rhd  (G, \uparrow e_1e_2, \Gamma, \zpp{z}{w})$
+  \item \label{r120} $(G, \uparrow e_1 ,  \odot e_2 : \Gamma ,\zppf{z}{w})   \rhd  (G, \uparrow e_1 e_2, \Gamma, \zppf{z}{w})$ 
+  \item \label{r130} $(G, \uparrow e_2 ,e_1 \odot  : \Gamma ,\zppf{z}{w})   \rhd  (G, \uparrow e_1e_2, \Gamma, \zppf{z}{w})$
+\end{enumerate}
+ \caption{Rules for klenee}
+ \label{fig:rule-seq}
+\end{figure}
 
 
 \[
-\begin{array}{lcl}
- (G, \downarrow a,\Gamma ,z \bullet aw)       & \rhd & (G, \uparrow a, \Gamma, za \bullet w) \\
- (G, \downarrow a,\Gamma ,z \bullet bw)       & \rhd & (G, \uparrow a, \Gamma, \langle z \bullet bw\rangle_{\bot}) \\
- (G, \downarrow a,\Gamma ,z \bullet \lambda)  & \rhd & (G, \uparrow a, \Gamma, \bot) \\
+\begin{array}{lcl} 
  (G, \downarrow \epsilon,\Gamma ,z \bullet w) & \rhd & (G, \uparrow \epsilon, \Gamma, z \bullet w) \\
  (G, \downarrow e1/e2, \Gamma ,z \bullet w)   & \rhd & (G, \uparrow e1, \otimes e2 : \Gamma, z \bullet w) \\
 \end{array}
 \]
+
+\section{Haskell implementation}
 
 \section{Related Work} \label{sec:related}
 

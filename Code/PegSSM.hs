@@ -144,8 +144,7 @@ step (g,Dw, Var x, es, z, r)             = case (lookup x g) of
                                                 Nothing   -> (g, Up, Var x, es, z, Bot)
 step (g,Up, _, (Var x):es, z, Bot)     = (g, Up, Var x, es, z, Bot)                                                
 step (g,Up, _, (Var x):es, z, Top)     = (g, Up, Var x, es, z, Top)
-        
-         
+                 
 stepper :: (State -> a) -> State -> Maybe (a, State)
 stepper prj s = fx (step s)
   where

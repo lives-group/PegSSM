@@ -92,3 +92,23 @@ keywords = "Extensible languages",
 keywords = "Adaptable grammars",
 keywords = "\{PEG\} "
 }
+
+@article{Ford04,
+author = {Ford, Bryan},
+title = {Parsing Expression Grammars: A Recognition-Based Syntactic Foundation},
+year = {2004},
+issue_date = {January 2004},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {39},
+number = {1},
+issn = {0362-1340},
+url = {https://doi.org/10.1145/982962.964011},
+doi = {10.1145/982962.964011},
+abstract = {For decades we have been using Chomsky's generative system of grammars, particularly context-free grammars (CFGs) and regular expressions (REs), to express the syntax of programming languages and protocols. The power of generative grammars to express ambiguity is crucial to their original purpose of modelling natural languages, but this very power makes it unnecessarily difficult both to express and to parse machine-oriented languages using CFGs. Parsing Expression Grammars (PEGs) provide an alternative, recognition-based formal foundation for describing machine-oriented syntax, which solves the ambiguity problem by not introducing ambiguity in the first place. Where CFGs express nondeterministic choice between alternatives, PEGs instead use prioritized choice. PEGs address frequently felt expressiveness limitations of CFGs and REs, simplifying syntax definitions and making it unnecessary to separate their lexical and hierarchical components. A linear-time parser can be built for any PEG, avoiding both the complexity and fickleness of LR parsers and the inefficiency of generalized CFG parsing. While PEGs provide a rich set of operators for constructing grammars, they are reducible to two minimal recognition schemas developed around 1970, TS/TDPL and gTS/GTDPL, which are here proven equivalent in effective recognition power.},
+journal = {SIGPLAN Not.},
+month = jan,
+pages = {111–122},
+numpages = {12},
+keywords = {context-free grammars, GTDPL, lexical analysis, packrat parsing, regular expressions, unified grammars, scannerless parsing, syntactic predicates, BNF, parsing expression grammars, TDPL}
+}
