@@ -48,9 +48,9 @@ andE :: E -> E
 andE e = Not (Not e)
 
        
-parens :: Bool -> String -> String
-parens True s ="(" ++ s ++ ")"
-parens False s = s
+pparens :: Bool -> String -> String
+pparens True s ="(" ++ s ++ ")"
+pparens False s = s
 
 prec :: E -> Int
 prec (Alt _ _) = 7
@@ -64,13 +64,13 @@ prec (Eps) = 10
 prec (NOP) = 10
 
 pprint :: E -> String
-pprint (Eps) = "\x03b5"
+pprint (Eps) = "e"
 pprint (Lit c) = c:[]
 pprint (Any) = "."
-pprint (Alt e1 e2) = (parens (7 >= prec e1) (pprint e1)) ++ "\\" ++ (parens (7 > prec e2) (pprint e2))
-pprint (Seq e1 e2) = (parens (8 >= prec e1) (pprint e1)) ++ (parens (8 > prec e2) (pprint e2))
-pprint (Not e1) = "!" ++ (parens (9 > prec e1) (pprint e1))
-pprint (Kle e1) = (parens (9 > prec e1) (pprint e1)) ++ "*"
+pprint (Alt e1 e2) = (pparens (7 > prec e1) (pprint e1)) ++ "\\\\" ++ (pparens (7 > prec e2) (pprint e2))
+pprint (Seq e1 e2) = (pparens (8 > prec e1) (pprint e1)) ++ (pparens (8 > prec e2) (pprint e2))
+pprint (Not e1) = "!" ++ (pparens (9 > prec e1) (pprint e1))
+pprint (Kle e1) = (pparens (9 > prec e1) (pprint e1)) ++ "*"
 pprint (Var x)  = x
 pprint (NOP)  = "\x2609"
 
@@ -164,3 +164,4 @@ countRun g e s = (last xs, length xs)
 
 simpleRun ::  G -> E -> String -> State
 simpleRun g e s = last (run g e s)
+

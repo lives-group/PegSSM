@@ -1,0 +1,305 @@
+{"userInput":"aabb",
+ "code":"A -> aAa\\e;B -> b",
+ "debugFrames":[{"input":0,
+                 "PEG-position":1,
+                 "previousPEG":"null",
+                 "actualPEG":"A",
+                 "status":"Calling rule A",
+                 "tag":"i"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "previousPEG":"A",
+                 "actualPEG":"aAa\\e",
+                 "status":"Executing aAa\\e",
+                 "tag":"i"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "previousPEG":"aAa\\e",
+                 "actualPEG":"aAa",
+                 "status":"Executing aAa",
+                 "tag":"i"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "previousPEG":"aAa",
+                 "actualPEG":"aA",
+                 "status":"Executing aA",
+                 "tag":"i"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "previousPEG":"aA",
+                 "actualPEG":"a",
+                 "status":"Attempting match a",
+                 "tag":"i"
+                  },
+                   
+                {"input":1,
+                 "PEG-position":1,
+                 "previousPEG":"aA",
+                 "actualPEG":"a",
+                 "status":"match a succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":1,
+                 "PEG-position":1,
+                 "previousPEG":"aA",
+                 "actualPEG":"A",
+                 "status":"Calling rule A",
+                 "tag":"i"
+                  },
+                   
+                {"input":1,
+                 "PEG-position":1,
+                 "previousPEG":"A",
+                 "actualPEG":"aAa\\e",
+                 "status":"Executing aAa\\e",
+                 "tag":"i"
+                  },
+                   
+                {"input":1,
+                 "PEG-position":1,
+                 "previousPEG":"aAa\\e",
+                 "actualPEG":"aAa",
+                 "status":"Executing aAa",
+                 "tag":"i"
+                  },
+                   
+                {"input":1,
+                 "PEG-position":1,
+                 "previousPEG":"aAa",
+                 "actualPEG":"aA",
+                 "status":"Executing aA",
+                 "tag":"i"
+                  },
+                   
+                {"input":1,
+                 "PEG-position":1,
+                 "previousPEG":"aA",
+                 "actualPEG":"a",
+                 "status":"Attempting match a",
+                 "tag":"i"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aA",
+                 "actualPEG":"a",
+                 "status":"match a succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aA",
+                 "actualPEG":"A",
+                 "status":"Calling rule A",
+                 "tag":"i"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"A",
+                 "actualPEG":"aAa\\e",
+                 "status":"Executing aAa\\e",
+                 "tag":"i"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aAa\\e",
+                 "actualPEG":"aAa",
+                 "status":"Executing aAa",
+                 "tag":"i"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aAa",
+                 "actualPEG":"aA",
+                 "status":"Executing aA",
+                 "tag":"i"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aA",
+                 "actualPEG":"a",
+                 "status":"Attempting match a",
+                 "tag":"i"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aA",
+                 "actualPEG":"a",
+                 "status":"match a failed ",
+                 "tag":"f"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aAa",
+                 "actualPEG":"aA",
+                 "status":"Peg aA failed ",
+                 "tag":"f"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aAa\\e",
+                 "actualPEG":"aAa",
+                 "status":"Peg aAa failed ",
+                 "tag":"f"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aAa\\e",
+                 "actualPEG":"e",
+                 "status":"Executing e",
+                 "tag":"i"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aAa\\e",
+                 "actualPEG":"e",
+                 "status":"Peg e succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"A",
+                 "actualPEG":"aAa\\e",
+                 "status":"Peg aAa\\e succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aA",
+                 "actualPEG":"A",
+                 "status":"rule A succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aAa",
+                 "actualPEG":"aA",
+                 "status":"Peg aA succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aAa",
+                 "actualPEG":"a",
+                 "status":"Attempting match a",
+                 "tag":"i"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aAa",
+                 "actualPEG":"a",
+                 "status":"match a failed ",
+                 "tag":"f"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aAa\\e",
+                 "actualPEG":"aAa",
+                 "status":"Peg aAa failed ",
+                 "tag":"f"
+                  },
+                   
+                {"input":1,
+                 "PEG-position":1,
+                 "previousPEG":"aAa\\e",
+                 "actualPEG":"e",
+                 "status":"Executing e",
+                 "tag":"i"
+                  },
+                   
+                {"input":1,
+                 "PEG-position":1,
+                 "previousPEG":"aAa\\e",
+                 "actualPEG":"e",
+                 "status":"Peg e succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":1,
+                 "PEG-position":1,
+                 "previousPEG":"A",
+                 "actualPEG":"aAa\\e",
+                 "status":"Peg aAa\\e succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":1,
+                 "PEG-position":1,
+                 "previousPEG":"aA",
+                 "actualPEG":"A",
+                 "status":"rule A succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":1,
+                 "PEG-position":1,
+                 "previousPEG":"aAa",
+                 "actualPEG":"aA",
+                 "status":"Peg aA succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":1,
+                 "PEG-position":1,
+                 "previousPEG":"aAa",
+                 "actualPEG":"a",
+                 "status":"Attempting match a",
+                 "tag":"i"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aAa",
+                 "actualPEG":"a",
+                 "status":"match a succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"aAa\\e",
+                 "actualPEG":"aAa",
+                 "status":"Peg aAa succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"A",
+                 "actualPEG":"aAa\\e",
+                 "status":"Peg aAa\\e succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":2,
+                 "PEG-position":1,
+                 "previousPEG":"null",
+                 "actualPEG":"A",
+                 "status":"rule A succed ",
+                 "tag":"s"
+                  }]}
