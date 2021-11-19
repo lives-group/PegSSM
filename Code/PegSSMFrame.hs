@@ -3,7 +3,7 @@ module PegSSMFrame where
 
 import Data.List
 import PegSSM
-import PegSSMTests
+--import PegSSMTests
 import Text.PrettyPrint.HughesPJ as HPJ
 
 {-    "debugFrames": [
