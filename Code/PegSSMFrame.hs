@@ -3,7 +3,7 @@ module PegSSMFrame where
 
 import Data.List
 import PegSSM
-import PegSSMTests
+--import PegSSMTests
 import Text.PrettyPrint.HughesPJ as HPJ
 
 {-    "debugFrames": [
@@ -65,11 +65,15 @@ jmb :: Maybe E -> Doc
 jmb Nothing = doubleQuotes $ text "null" 
 jmb (Just e) = doubleQuotes $ text (pprint e)
 
+stk2Doc :: [String] -> Doc
+stk2Doc = brackets.hcat.(punctuate comma).(map (doubleQuotes.text))
+
 frame2Doc :: Frame -> Doc
 frame2Doc (i,p,pa,stk,msg,tag) 
     = braces (nest 4 $ vcat (punctuate comma 
                                        [ jlb "input" (int i), 
                                          jlb "PEG-position" (int 1),
+                                         jlb "callStack" (stk2Doc stk),
                                          jlb "previousPEG" (jmb pa),
                                          jlb "actualPEG" (doubleQuotes $ text (pprint p)),
                                          jlb "status" (doubleQuotes $ text msg),
