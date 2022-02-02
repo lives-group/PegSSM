@@ -67,7 +67,7 @@ pprint :: E -> String
 pprint (Eps) = "e"
 pprint (Lit c) = c:[]
 pprint (Any) = "."
-pprint (Alt e1 e2) = (pparens (7 > prec e1) (pprint e1)) ++ "\\\\" ++ (pparens (7 > prec e2) (pprint e2))
+pprint (Alt e1 e2) = (pparens (7 > prec e1) (pprint e1)) ++ " / " ++ (pparens (7 > prec e2) (pprint e2))
 pprint (Seq e1 e2) = (pparens (8 > prec e1) (pprint e1)) ++ (pparens (8 > prec e2) (pprint e2))
 pprint (Not e1) = "!" ++ (pparens (9 > prec e1) (pprint e1))
 pprint (Kle e1) = (pparens (9 > prec e1) (pprint e1)) ++ "*"

@@ -62,28 +62,28 @@ jlb :: String -> Doc -> Doc
 jlb s d = doubleQuotes (text s)  HPJ.<> colon HPJ.<> d
 
 jmb :: Maybe E -> Doc 
-jmb Nothing = doubleQuotes $ text "null" 
+jmb Nothing = text "null" 
 jmb (Just e) = doubleQuotes $ text (pprint e)
 
 stk2Doc :: [String] -> Doc
 stk2Doc = brackets.hcat.(punctuate comma).(map (doubleQuotes.text))
 
-frame2Doc :: Frame -> Doc
-frame2Doc (i,p,pa,stk,msg,tag) 
+frame2Doc :: (Int, Frame) -> Doc
+frame2Doc (n, (i,p,pa,stk,msg,tag)) 
     = braces (nest 4 $ vcat (punctuate comma 
                                        [ jlb "input" (int i), 
                                          jlb "PEG-position" (int 1),
                                          jlb "callStack" (stk2Doc stk),
                                          jlb "previousPEG" (jmb pa),
                                          jlb "actualPEG" (doubleQuotes $ text (pprint p)),
-                                         jlb "status" (doubleQuotes $ text msg),
+                                         jlb "status" (doubleQuotes $ text ("[" ++ (show n) ++ "] " ++ msg)),
                                          jlb "tag" (doubleQuotes $ text tag)
                                            
                                        ] ) $+$ (text " ") ) 
 
 frames2Doc :: [Frame] -> Doc 
 frames2Doc xs = jlb "debugFrames" 
-                    (brackets (vcat $ punctuate (comma $+$ text "") (map frame2Doc xs)))
+                    (brackets (vcat $ punctuate (comma $+$ text "") (map frame2Doc (zip [1..] xs))))
 
 g2Doc :: G -> Doc 
 g2Doc g = doubleQuotes $ hcat (punctuate semi (map (\(s,p) -> text (s ++ " -> " ++ pprint p)) g ))
