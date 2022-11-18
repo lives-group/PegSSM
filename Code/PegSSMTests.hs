@@ -212,13 +212,30 @@ peg14tc = buildTestCases [] peg14 (pprint peg14) ipeg14
 gpeg1 = [("A",Alt peg3 (Var "B")),
          ("B", Lit 'c')]
 
--- S -> aSb/eps  
+-- S -> bSb/eps  
 -- 
 gpeg2 = [("S",Alt (Seq (Lit 'b') (Seq (Var "S") (Lit 'b'))) (Eps)  )]
+
+
+pegTestRun :: G -> E -> [String] -> [(String, Maybe String)]
+pegTestRun g e xs = map (\s -> (s, acceptedPrefix (simpleRun g e s))) xs
+
+countAccs ::  [(String, Maybe String)] -> [(Int, Int)]
+countAccs = map (\(s,m) -> (length s, cc m)) 
+  where 
+    cc (Just s)  = length s
+    cc Nothing   = -1
+
+
 
 -- S -> bbS | epsilon
 --
 gpeg4 = [("S",Alt (Seq (Lit 'b') (Seq (Lit 'b') (Var "S"))) (Eps)  )]
+
+-- P -> aPb | epsilon
+--
+gpeg41 = [("P",Alt (Seq (Lit 'a') (Seq (Var "P") (Lit 'b'))) (Eps)  )]
+
 
 -- AnBnCn
 anbn = Alt (Seq (Lit 'a') (Seq (Var "A") (Lit 'b'))) Eps

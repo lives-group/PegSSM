@@ -1,0 +1,181 @@
+{"userInput":"aabbcc",
+ "code":"S -> !Aa*bb*B.;A -> aAb/e;B -> bBc/e",
+ "debugFrames":[{"input":0,
+                 "PEG-position":1,
+                 "callStack":[],
+                 "previousPEG":null,
+                 "actualPEG":"S",
+                 "status":"[1] Calling rule S",
+                 "tag":"i"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S"],
+                 "previousPEG":"S",
+                 "actualPEG":"!Aa*bb*B.",
+                 "status":"[2] Executing !Aa*bb*B.",
+                 "tag":"i"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S"],
+                 "previousPEG":"!Aa*bb*B.",
+                 "actualPEG":"!Aa*bb*B",
+                 "status":"[3] Executing !Aa*bb*B",
+                 "tag":"i"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S"],
+                 "previousPEG":"!Aa*bb*B",
+                 "actualPEG":"!Aa*bb*",
+                 "status":"[4] Executing !Aa*bb*",
+                 "tag":"i"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S"],
+                 "previousPEG":"!Aa*bb*",
+                 "actualPEG":"!Aa*",
+                 "status":"[5] Executing !Aa*",
+                 "tag":"i"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S"],
+                 "previousPEG":"!Aa*",
+                 "actualPEG":"!A",
+                 "status":"[6] Executing !A",
+                 "tag":"i"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S"],
+                 "previousPEG":"!A",
+                 "actualPEG":"A",
+                 "status":"[7] Calling rule A",
+                 "tag":"i"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S","A"],
+                 "previousPEG":"A",
+                 "actualPEG":"aAb/e",
+                 "status":"[8] Executing aAb/e",
+                 "tag":"i"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S","A"],
+                 "previousPEG":"aAb/e",
+                 "actualPEG":"aAb",
+                 "status":"[9] Calling rule aAb",
+                 "tag":"i"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S","A"],
+                 "previousPEG":"aAb/e",
+                 "actualPEG":"aAb",
+                 "status":"[10] rule aAb failed ",
+                 "tag":"f"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S","A"],
+                 "previousPEG":"aAb/e",
+                 "actualPEG":"e",
+                 "status":"[11] Executing e",
+                 "tag":"i"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S","A"],
+                 "previousPEG":"aAb/e",
+                 "actualPEG":"e",
+                 "status":"[12] Peg e succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S","A"],
+                 "previousPEG":"A",
+                 "actualPEG":"aAb/e",
+                 "status":"[13] Peg aAb/e succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S"],
+                 "previousPEG":"!A",
+                 "actualPEG":"A",
+                 "status":"[14] rule A succed ",
+                 "tag":"s"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S"],
+                 "previousPEG":"!Aa*",
+                 "actualPEG":"!A",
+                 "status":"[15] Peg !A failed ",
+                 "tag":"f"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S"],
+                 "previousPEG":"!Aa*bb*",
+                 "actualPEG":"!Aa*",
+                 "status":"[16] Peg !Aa* failed ",
+                 "tag":"f"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S"],
+                 "previousPEG":"!Aa*bb*B",
+                 "actualPEG":"!Aa*bb*",
+                 "status":"[17] Peg !Aa*bb* failed ",
+                 "tag":"f"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S"],
+                 "previousPEG":"!Aa*bb*B.",
+                 "actualPEG":"!Aa*bb*B",
+                 "status":"[18] Peg !Aa*bb*B failed ",
+                 "tag":"f"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":["S"],
+                 "previousPEG":"S",
+                 "actualPEG":"!Aa*bb*B.",
+                 "status":"[19] Peg !Aa*bb*B. failed ",
+                 "tag":"f"
+                  },
+                   
+                {"input":0,
+                 "PEG-position":1,
+                 "callStack":[],
+                 "previousPEG":null,
+                 "actualPEG":"S",
+                 "status":"[20] rule S failed ",
+                 "tag":"f"
+                  }]}

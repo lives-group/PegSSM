@@ -44,6 +44,12 @@ acceptedJust :: String -> State -> Bool
 acceptedJust s (g,d,e,stk,(i,mrk,con,inp), Top) = (reverse con) == s
 acceptedJust s (g,d,e,stk,(i,mrk,con,inp), Bot) = False
 
+
+
+acceptedPrefix :: State -> Maybe String 
+acceptedPrefix (g,d,e,stk,(i,mrk,con,inp), Top) = Just (reverse con)
+acceptedPrefix (g,d,e,stk,(i,mrk,con,inp), Bot) = Nothing
+
 andE :: E -> E
 andE e = Not (Not e)
 
@@ -67,7 +73,7 @@ pprint :: E -> String
 pprint (Eps) = "e"
 pprint (Lit c) = c:[]
 pprint (Any) = "."
-pprint (Alt e1 e2) = (pparens (7 > prec e1) (pprint e1)) ++ "\\\\" ++ (pparens (7 > prec e2) (pprint e2))
+pprint (Alt e1 e2) = (pparens (7 > prec e1) (pprint e1)) ++ "/" ++ (pparens (7 > prec e2) (pprint e2))
 pprint (Seq e1 e2) = (pparens (8 > prec e1) (pprint e1)) ++ (pparens (8 > prec e2) (pprint e2))
 pprint (Not e1) = "!" ++ (pparens (9 > prec e1) (pprint e1))
 pprint (Kle e1) = (pparens (9 > prec e1) (pprint e1)) ++ "*"
@@ -87,20 +93,26 @@ ppList s xs = concat $ intersperse s (map show xs)
 
 pprintZip :: Zipp -> String
 pprintZip (i,stk,xs,ys) = "{"++(show i) ++ ":"++
-                          (sshead stk)++ 
+                          "[" ++ (sshead 3 stk)++ "] "++  
                           xs ++ "\x00B7" ++ ys++"}"
-    where sshead [] = "[_]"
-          sshead (x:xs) = "[" ++ show x ++ "]"
+    where sshead n xs =  concat ( intersperse "," (blanks n (length xs) ++ (map show  $ take n xs)))
+          blanks n l = replicate (max 0 (n - l)) "_"
           ssstk ws = (concat $ (intersperse ";") $ map show ws)
 
 pprintState :: State -> String
-pprintState (g,d,e,stk,zpp,r) = (pprintZip zpp) ++ " "++ (pprintR r) ++ " " ++ (pprintD d) ++ (pprint e) ++ " [" ++
-                                (concat $ intersperse "," (map pprint stk)) ++ 
-                                "] "
+pprintState (g,d,e,stk,zpp,r) = (pprintZip zpp) ++ " "++ 
+                                (pprintR r)     ++ " "++ 
+                                (pprintD d)     ++ (pprint e) ++ 
+                                " [" ++ (concat $ intersperse "," (map pprint stk)) ++ "] "
 
 
 mark :: Zipp -> Zipp
 mark (i,ms,xs,ys) = (i,i:ms,xs,ys)
+
+
+remark :: Zipp -> Zipp
+--remark (i,[],xs,ys) = (i,[i],xs,ys)  This should'nt never happen !!! 
+remark (i,m:ms,xs,ys) = (i,i:ms,xs,ys)
 
 dismiss :: Zipp -> Zipp 
 dismiss (i,[],xs,zs) = (i,[],xs,zs)
@@ -138,7 +150,7 @@ step (g,Up, e1, (Not NOP):es, z, Top)    = (g, Up, Not e1, es, restore z, Bot)
 step (g,Up, e1, (Not NOP):es, z, Bot)    = (g, Up, Not e1, es, restore z, Top)
 step (g,Dw, Kle e1, es, z, b)            = (g, Dw, e1, (Kle NOP):es, mark z, b)
 step (g,Up, e1, (Kle NOP):es, z, Bot)    = (g, Up, Kle e1, es, restore z, Top)
-step (g,Up, e1, (Kle NOP):es, z, Top)    = (g, Dw, e1, (Kle NOP):es, mark z, Top)
+step (g,Up, e1, (Kle NOP):es, z, Top)    = (g, Dw, e1, (Kle NOP):es, remark z, Top)
 step (g,Dw, Var x, es, z, r)             = case (lookup x g) of 
                                                 (Just e') -> (g, Dw, e'   , (Var x):es, z, r)
                                                 Nothing   -> (g, Up, Var x, es, z, Bot)
