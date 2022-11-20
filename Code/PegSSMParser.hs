@@ -48,28 +48,49 @@ parens p = do char '('
 
 apegTerm :: Parser E
 apegTerm = spaces >> (literal <|> lambda <|> anything <|> var <|> (parens apegExp))
-           
+
+apegPre :: Parser E
+apegPre = try (spaces >> string "!" >> apegPre >>= (\t -> return (Not t))) <|>
+          apegTerm
+
+apegPos :: Parser E
+apegPos = apegPre >>= (\t -> option t (try $ spaces >> string "*" >> return (Kle t)))
+
+apegSeq :: Parser E
+apegSeq = do xs <- many1 (try apegPos)
+             return (foldr1 Seq xs)
+
+apegAlt :: Parser E
+apegAlt = do s <- apegSeq
+             a <- option s (try $ spaces >> (string "/") >> apegAlt >>= (\t -> return $ Alt s t))
+             return a
+
+
 apegExp :: Parser E          
-apegExp = buildExpressionParser apegTable (apegTerm >>= \t -> spaces >> return t) 
-         <?> "APEG Expression"
+apegExp = apegAlt
+--apegExp = buildExpressionParser apegTable (apegTerm >>= \t -> spaces >> return t)
+--         <?> "APEG Expression"
 
-apegTable :: OperatorTable String () Identity E
-apegTable   = [ [prefix "!" Not, postfix "*" Kle ],
-                [seqOp],
-                [binary "/" (Alt) AssocLeft ]
-              ]
-           
-binary :: String -> (a -> a -> a) -> Assoc -> Operator String () Identity a  
-binary  name fun assoc = Infix   (do{ string name; spaces ;return fun }) assoc
+-- apegFact :: Parser E
+-- apegFact = buildExpressionParser apegTable (apegTerm >>= \t -> spaces >> return t)
+--            <?> "APEG Expression on Not or Klenee"
 
-prefix :: String -> (a -> a) -> Operator String () Identity a 
-prefix  name fun       = Prefix  (do{ string name; spaces; return fun })
 
-postfix :: String -> (a -> a) -> Operator String () Identity a  
-postfix name fun       = Postfix (do{ spaces;string name; spaces; return fun }) 
-
-seqOp :: Operator String () Identity E  
-seqOp = Infix   (try (lookAhead apegTerm >> return Seq)) AssocLeft
+-- apegTable :: OperatorTable String () Identity E
+-- apegTable   = [ [prefix "!" Not, postfix "*" Kle ]
+--               ]
+--
+-- binary :: String -> (a -> a -> a) -> Assoc -> Operator String () Identity a
+-- binary  name fun assoc = Infix   (do{ string name; spaces ;return fun }) assoc
+--
+-- prefix :: String -> (a -> a) -> Operator String () Identity a
+-- prefix  name fun       = Prefix  (do{ string name; spaces; return fun })
+--
+-- postfix :: String -> (a -> a) -> Operator String () Identity a
+-- postfix name fun       = Postfix (do{ spaces;string name; spaces; return fun })
+--
+-- seqOp :: Operator String () Identity E
+-- seqOp = Infix   (try (lookAhead apegTerm >> return Seq)) AssocLeft
 
 parseRule :: Parser (String,E)
 parseRule = do r <- ident
