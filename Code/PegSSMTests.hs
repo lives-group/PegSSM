@@ -2,7 +2,7 @@
 module PegSSMTests where
 
 import PegSSM
-import Test.Tasty 
+import Test.Tasty
 import Data.List
 import Test.Tasty.HUnit
 
@@ -212,9 +212,9 @@ peg14tc = buildTestCases [] peg14 (pprint peg14) ipeg14
 gpeg1 = [("A",Alt peg3 (Var "B")),
          ("B", Lit 'c')]
 
--- S -> bSb/eps  
+-- S -> aSb/eps
 -- 
-gpeg2 = [("S",Alt (Seq (Lit 'b') (Seq (Var "S") (Lit 'b'))) (Eps)  )]
+gpeg2 = [("S",Alt (Seq (Lit 'a') (Seq (Var "S") (Lit 'b'))) (Eps)  )]
 
 
 pegTestRun :: G -> E -> [String] -> [(String, Maybe String)]
