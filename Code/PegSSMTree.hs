@@ -8,6 +8,8 @@ import Text.PrettyPrint.HughesPJ as HPJ
 data RoseTree a = Node a [RoseTree a] deriving (Show, Eq)
 data NColor = Green | Red deriving (Show, Eq)
 
+data NM = O | I | II deriving (Show, Eq)
+
 type PTree = RoseTree (E,  NColor, Int, Int)
 
 
@@ -28,24 +30,39 @@ color :: R -> NColor
 color Top = Green
 color Bot = Red
 
-mkTree :: [State] -> [PTree] -> [PTree]
-mkTree [] xs = xs
-mkTree ((_,Up,e@(Lit _),ctx,zp,r):xs) ys
-   = mkTree xs ( (Node (e, color r, start zp, stop zp) []):ys )
-mkTree ((_,Up,e@(Seq _ _),ctx,zp,r):xs) (a:b:ys)
-   = mkTree xs ((Node (e, color r, start zp, stop zp) [b,a]) : ys)
-mkTree ((_,Up,e@(Alt _ _),ctx,zp,r):xs) (a:b:ys)
-   = mkTree xs ((Node (e, color r, start zp, stop zp) [b,a]) : ys)
-mkTree ((_,Up,e@(Kle _),ctx,zp,r):xs) (a:ys)
-   = mkTree xs ((Node (e, color r, start zp, stop zp) [a]) : ys)
-mkTree ((_,Up,e@(Not _),ctx,zp,r):xs) (a:ys)
-   = mkTree xs ((Node (e, color r, start zp, stop zp) [a]) : ys)
-mkTree ((_,Up,Eps,ctx,zp,r):xs) ys
-   = mkTree xs ((Node (Eps, color r, start zp, stop zp) []) : ys)
-mkTree ((_,Up,(Var s),ctx,zp,r):xs) (a:ys)
-   = mkTree xs ((Node ((Var s), color r, start zp, stop zp) [a]) : ys)
-mkTree ((_,Dw,_,_,_,_):xs) ys = mkTree xs ys
-mkTree (x:xs) ys = error ((show x) ++ "\n------------------\n YS = \n" ++ (show ys))
+nn :: [E] -> NM
+nn [] = O
+nn ((Alt _ NOP):_) = II
+nn ((Seq _ NOP):_) = II
+nn _ = I
+
+mkTree :: NM -> [State] -> [PTree] -> [PTree]
+mkTree _  [] xs = xs
+mkTree _ ((_,Up,e@(Lit _),ctx,zp,r):xs) ys
+   = mkTree (nn ctx) xs ( (Node (e, color r, start zp, stop zp) []):ys )
+   
+mkTree II ((_,Up,e@(Seq _ _),ctx,zp,r):xs) (a:b:ys)
+   = mkTree (nn ctx) xs ((Node (e,(color r), start zp, stop zp) [b,a]) : ys)
+
+mkTree I ((_,Up,e@(Seq _ _),ctx,zp,r):xs) (a:ys)
+   = mkTree (nn ctx) xs ((Node (e, (color r), start zp, stop zp) [a]) : ys)
+
+mkTree I ((_,Up,e@(Alt _ _),ctx,zp,r):xs) (a:b:ys)
+    = mkTree (nn ctx) xs ((Node (e, color r, start zp, stop zp) [b,a]) : ys)
+   
+mkTree II ((_,Up,e@(Alt _ _),ctx,zp,r):xs) (a:ys)
+   = mkTree (nn ctx) xs ((Node (e, color r, start zp, stop zp) [a]) : ys)
+
+mkTree _ ((_,Up,e@(Kle _),ctx,zp,r):xs) (a:ys)
+   = mkTree (nn ctx) xs ((Node (e, color r, start zp, stop zp) [a]) : ys)
+mkTree _ ((_,Up,e@(Not _),ctx,zp,r):xs) (a:ys)
+   = mkTree (nn ctx) xs ((Node (e, color r, start zp, stop zp) [a]) : ys)
+mkTree _ ((_,Up,Eps,ctx,zp,r):xs) ys
+   = mkTree (nn ctx) xs ((Node (Eps, color r, start zp, stop zp) []) : ys)
+mkTree _ ((_,Up,(Var s),ctx,zp,r):xs) (a:ys)
+   = mkTree (nn ctx) xs ((Node ((Var s), color r, start zp, stop zp) [a]) : ys)
+mkTree _ ((_,Dw,_,ctx,_,_):xs) ys = mkTree (nn ctx) xs ys
+mkTree _ (x:xs) ys = error ((show x) ++ "\n------------------\n YS = \n" ++ (show ys))
 
 
 quotedField :: String -> String -> Doc
@@ -81,7 +98,7 @@ qnode n p (e, c, i, f) xs
             field "to" (show f),
             (if null xs
                   then empty
-                  else fieldd "_children" (vlist (map (pptree (n+2) (pprint e)) xs)))]
+                  else fieldd "_children" (vlist (map (pptree n (pprint e)) xs)))]
 
 pptree :: Int -> String -> PTree -> Doc
 pptree n p (Node d xs)
@@ -93,7 +110,7 @@ pptree n p (Node d xs)
 
 st2tree :: [State] -> Doc
 st2tree xs =  lbrack <+>
-              pptree 0 "null" (head (mkTree xs [])) <+>
+              pptree 0 "null" (head (mkTree O xs [])) <+>
               rbrack
 
 makeTree :: G -> E -> String -> String

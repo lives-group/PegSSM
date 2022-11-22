@@ -1,0 +1,151 @@
+[ {
+  "name" : "S" ,
+  "parent" : "null" ,
+  "type" : "red" ,
+  "from" : 0 ,
+  "to" : 0 ,
+  "_children" : [
+                { "name" : "e!Aa*bb*B." ,
+                  "parent" : "S" ,
+                  "type" : "red" ,
+                  "from" : 0 ,
+                  "to" : 0 ,
+                  "_children" : [
+                                {   "name" : "!Aa*bb*B." ,
+                                    "parent" : "e!Aa*bb*B." ,
+                                    "type" : "red" ,
+                                    "from" : 0 ,
+                                    "to" : 0 ,
+                                    "_children" : [
+                                                  {     "name" : "!A" ,
+                                                        "parent" : "!Aa*bb*B." ,
+                                                        "type" : "red" ,
+                                                        "from" : 0 ,
+                                                        "to" : 0 ,
+                                                        "_children" : [
+                                                                      {       "name" : "A" ,
+                                                                              "parent" : "!A" ,
+                                                                              "type" : "green" ,
+                                                                              "from" : 0 ,
+                                                                              "to" : 4 ,
+                                                                              "_children" : [
+                                                                                            {         "name" : "aAb/e" ,
+                                                                                                      "parent" : "A" ,
+                                                                                                      "type" : "green" ,
+                                                                                                      "from" : 0 ,
+                                                                                                      "to" : 4 ,
+                                                                                                      "_children" : [
+                                                                                                                    {           "name" : "aAb" ,
+                                                                                                                                "parent" : "aAb/e" ,
+                                                                                                                                "type" : "green" ,
+                                                                                                                                "from" : 0 ,
+                                                                                                                                "to" : 4 ,
+                                                                                                                                "_children" : [
+                                                                                                                                              {             "name" : "a" ,
+                                                                                                                                                            "parent" : "aAb" ,
+                                                                                                                                                            "type" : "green" ,
+                                                                                                                                                            "from" : 1 ,
+                                                                                                                                                            "to" : 2 ,
+                                                                                                                                              },
+                                                                                                                                              {             "name" : "Ab" ,
+                                                                                                                                                            "parent" : "aAb" ,
+                                                                                                                                                            "type" : "green" ,
+                                                                                                                                                            "from" : 0 ,
+                                                                                                                                                            "to" : 4 ,
+                                                                                                                                                            "_children" : [
+                                                                                                                                                                          {               "name" : "A" ,
+                                                                                                                                                                                          "parent" : "Ab" ,
+                                                                                                                                                                                          "type" : "green" ,
+                                                                                                                                                                                          "from" : 0 ,
+                                                                                                                                                                                          "to" : 3 ,
+                                                                                                                                                                                          "_children" : [
+                                                                                                                                                                                                        {                 "name" : "aAb/e" ,
+                                                                                                                                                                                                                          "parent" : "A" ,
+                                                                                                                                                                                                                          "type" : "green" ,
+                                                                                                                                                                                                                          "from" : 0 ,
+                                                                                                                                                                                                                          "to" : 3 ,
+                                                                                                                                                                                                                          "_children" : [
+                                                                                                                                                                                                                                        {                   "name" : "aAb" ,
+                                                                                                                                                                                                                                                            "parent" : "aAb/e" ,
+                                                                                                                                                                                                                                                            "type" : "green" ,
+                                                                                                                                                                                                                                                            "from" : 1 ,
+                                                                                                                                                                                                                                                            "to" : 3 ,
+                                                                                                                                                                                                                                                            "_children" : [
+                                                                                                                                                                                                                                                                          {                     "name" : "aAb" ,
+                                                                                                                                                                                                                                                                                                "parent" : "aAb" ,
+                                                                                                                                                                                                                                                                                                "type" : "red" ,
+                                                                                                                                                                                                                                                                                                "from" : 2 ,
+                                                                                                                                                                                                                                                                                                "to" : 2 ,
+                                                                                                                                                                                                                                                                                                "_children" : [
+                                                                                                                                                                                                                                                                                                              {                       "name" : "a" ,
+                                                                                                                                                                                                                                                                                                                                      "parent" : "aAb" ,
+                                                                                                                                                                                                                                                                                                                                      "type" : "red" ,
+                                                                                                                                                                                                                                                                                                                                      "from" : 2 ,
+                                                                                                                                                                                                                                                                                                                                      "to" : 2 ,
+                                                                                                                                                                                                                                                                                                              }
+                                                                                                                                                                                                                                                                                                              ]
+                                                                                                                                                                                                                                                                          },
+                                                                                                                                                                                                                                                                          {                     "name" : "Ab" ,
+                                                                                                                                                                                                                                                                                                "parent" : "aAb" ,
+                                                                                                                                                                                                                                                                                                "type" : "green" ,
+                                                                                                                                                                                                                                                                                                "from" : 1 ,
+                                                                                                                                                                                                                                                                                                "to" : 3 ,
+                                                                                                                                                                                                                                                                                                "_children" : [
+                                                                                                                                                                                                                                                                                                              {                       "name" : "A" ,
+                                                                                                                                                                                                                                                                                                                                      "parent" : "Ab" ,
+                                                                                                                                                                                                                                                                                                                                      "type" : "green" ,
+                                                                                                                                                                                                                                                                                                                                      "from" : 1 ,
+                                                                                                                                                                                                                                                                                                                                      "to" : 2 ,
+                                                                                                                                                                                                                                                                                                                                      "_children" : [
+                                                                                                                                                                                                                                                                                                                                                    {                         "name" : "aAb/e" ,
+                                                                                                                                                                                                                                                                                                                                                                              "parent" : "A" ,
+                                                                                                                                                                                                                                                                                                                                                                              "type" : "green" ,
+                                                                                                                                                                                                                                                                                                                                                                              "from" : 1 ,
+                                                                                                                                                                                                                                                                                                                                                                              "to" : 2 ,
+                                                                                                                                                                                                                                                                                                                                                                              "_children" : [
+                                                                                                                                                                                                                                                                                                                                                                                            {                           "name" : "e" ,
+                                                                                                                                                                                                                                                                                                                                                                                                                        "parent" : "aAb/e" ,
+                                                                                                                                                                                                                                                                                                                                                                                                                        "type" : "green" ,
+                                                                                                                                                                                                                                                                                                                                                                                                                        "from" : 1 ,
+                                                                                                                                                                                                                                                                                                                                                                                                                        "to" : 2 ,
+                                                                                                                                                                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                                                                                                                                                                            ]
+                                                                                                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                                                                                                    ]
+                                                                                                                                                                                                                                                                                                              },
+                                                                                                                                                                                                                                                                                                              {                       "name" : "b" ,
+                                                                                                                                                                                                                                                                                                                                      "parent" : "Ab" ,
+                                                                                                                                                                                                                                                                                                                                      "type" : "green" ,
+                                                                                                                                                                                                                                                                                                                                      "from" : 1 ,
+                                                                                                                                                                                                                                                                                                                                      "to" : 3 ,
+                                                                                                                                                                                                                                                                                                              }
+                                                                                                                                                                                                                                                                                                              ]
+                                                                                                                                                                                                                                                                          }
+                                                                                                                                                                                                                                                                          ]
+                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                        ]
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                        ]
+                                                                                                                                                                          },
+                                                                                                                                                                          {               "name" : "b" ,
+                                                                                                                                                                                          "parent" : "Ab" ,
+                                                                                                                                                                                          "type" : "green" ,
+                                                                                                                                                                                          "from" : 0 ,
+                                                                                                                                                                                          "to" : 4 ,
+                                                                                                                                                                          }
+                                                                                                                                                                          ]
+                                                                                                                                              }
+                                                                                                                                              ]
+                                                                                                                    }
+                                                                                                                    ]
+                                                                                            }
+                                                                                            ]
+                                                                      }
+                                                                      ]
+                                                  }
+                                                  ]
+                                }
+                                ]
+                }
+                ]
+  } ]
