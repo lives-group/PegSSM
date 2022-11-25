@@ -89,16 +89,19 @@ ppcolor :: NColor -> String
 ppcolor Green = "green"
 ppcolor Red = "red"
 
+
+ 
+
 qnode :: Int -> String ->  (E, NColor, Int, Int) -> [PTree] -> Doc
 qnode n p (e, c, i, f) xs
-   = vcat [ quotedField "name" (pprint e),
+   = vcat ([quotedField "name" (pprint e),
             quotedField "parent" p,
             quotedField "type" (ppcolor c),
             field "from" (show i),
-            field "to" (show f),
+            field "to" (show f)] ++
             (if null xs
-                  then empty
-                  else fieldd "_children" (vlist (map (pptree n (pprint e)) xs)))]
+                  then []
+                  else [fieldd "_children" (vlist (map (pptree n (pprint e)) xs))]))
 
 pptree :: Int -> String -> PTree -> Doc
 pptree n p (Node d xs)
