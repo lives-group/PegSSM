@@ -3,7 +3,7 @@ module PegSSM where
 
 import Data.List
 
-data D = Up  | Dw   deriving Show
+data D = Up  | Dw   deriving (Show,Eq)
 data R = Top | Bot deriving Show
 
 data E = Seq E E
@@ -15,7 +15,7 @@ data E = Seq E E
        | Eps
        | Any
        | NOP
-       deriving Show
+       deriving (Show,Eq)
 
 
 type G    = [(String,E)]

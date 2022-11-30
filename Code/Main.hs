@@ -17,6 +17,7 @@ main  = do fname <- getArgs
                 [] -> help 
                 ["-i", f] -> parseAndDebug f 
                 ["-t", f] -> parseAndTree f
+                ["-g", f] -> parseAndDot f
                 [f]       -> parseAndRun f
                 _         -> help
                               
@@ -37,6 +38,12 @@ parseAndTree f = do g <- parseFromFile parseSpec f
                     case g of
                         Left err -> print err
                         Right x   -> tree f x
+
+parseAndDot :: FilePath -> IO ()
+parseAndDot f = do g <- parseFromFile parseSpec f
+                   case g of
+                        Left err -> print err
+                        Right x   -> dot f x
 
 
 
@@ -65,6 +72,13 @@ tree f (g,e,s)  = let bpth = fileName f
                   in  do writeFile outFile (makeTree g e s)
                          putStrLn ("output wrote to: " ++ outFile)
 
+dot :: FilePath -> (G,E,String) -> IO ()
+dot f  (g,e,s) = let bpth = fileName f
+                     outFile = bpth ++ ".dot"
+                  in  do writeFile outFile (runDot g e s)
+                         putStrLn ("output wrote to: " ++ outFile)
+
+
 debug :: (G,E,String) -> IO ()
 debug  (g,e,s) = ppRun g e s
                           
@@ -73,6 +87,7 @@ help :: IO ()
 help = mapM_ putStrLn [" Use main [-i | -t] <filename>",
                        " -i : Print the state list of the small stem semantics",
                        " -t : Alternative tree JSON output format  ",
+                       " -g : Generate a graph ( DOT file) of the parsing",
                        "-------------------------------------------",
                        "            Input file must be a text file",
                        "            divided in 3 sections separated by at least four dashes (-).",
